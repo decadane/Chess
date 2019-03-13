@@ -7,9 +7,8 @@ public abstract class Figure {
     protected Colors color;
     protected ImageIcon icon;
 
-    public abstract void move();
-    public abstract void backlight();
-    public abstract ImageIcon getIcon();
+    public abstract void backlight(Coord coord, Figure[][] board, boolean isBackLighted[][]);
+    public abstract void move(Coord from, Coord to, Figure[][] board);
 
     Figure(Colors color) {
 
@@ -19,5 +18,9 @@ public abstract class Figure {
 
         this.color = color;
         icon = new ImageIcon(name);
+    }
+
+    public ImageIcon getIcon() {
+        return icon;
     }
 }

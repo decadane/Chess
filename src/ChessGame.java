@@ -45,8 +45,6 @@ public class ChessGame extends JFrame {
                     if (board.isBackLighted(coord))
                         g.fillRect(coord.x * ICON_SIZE + BORDER_SIZE, coord.y * ICON_SIZE + BORDER_SIZE,
                                 ICON_SIZE, ICON_SIZE);
-                    if (board.getBox(coord) == null)
-                        continue;
                     g.drawImage(board.getBox(coord).getIcon().getImage(), coord.x * ICON_SIZE + BORDER_SIZE,
                             coord.y * ICON_SIZE + BORDER_SIZE, this);
                 }

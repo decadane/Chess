@@ -11,9 +11,10 @@ public class Board {
 
     public int BOARD_SIZE = 8;
 
-    private Figure table[][] = new Figure[8][8];
-    private boolean isBackLighted[][] = new boolean[8][8];
+    private Figure board[][] = new Figure[BOARD_SIZE][BOARD_SIZE];
+    private boolean isBackLighted[][] = new boolean[BOARD_SIZE][BOARD_SIZE];
     private BufferedImage bg;
+    private Coord crdTmp;
 
     public Board() {
         setBg();
@@ -22,11 +23,28 @@ public class Board {
 
     private void initTable() {
         for (int i = 0; i < BOARD_SIZE; i++) {
-            table[i][0] = new Pawn(Colors.BLACK);
-            table[i][1] = new Pawn(Colors.BLACK);
-            table[i][6] = new Pawn(Colors.WHITE);
-            table[i][7] = new Pawn(Colors.WHITE);
+            board[i][1] = new Pawn(Colors.BLACK);
+            for (int j = 2; j < 6; j++) {
+                board[i][j] = new Empty(Colors.NA);
+            }
+            board[i][6] = new Pawn(Colors.WHITE);
         }
+        board[0][0] = new Rook(Colors.BLACK);
+        board[7][0] = new Rook(Colors.BLACK);
+        board[1][0] = new Horse(Colors.BLACK);
+        board[6][0] = new Horse(Colors.BLACK);
+        board[2][0] = new Bishop(Colors.BLACK);
+        board[5][0] = new Bishop(Colors.BLACK);
+        board[3][0] = new King(Colors.BLACK);
+        board[4][0] = new Queen(Colors.BLACK);
+        board[0][7] = new Rook(Colors.WHITE);
+        board[7][7] = new Rook(Colors.WHITE);
+        board[1][7] = new Horse(Colors.WHITE);
+        board[6][7] = new Horse(Colors.WHITE);
+        board[2][7] = new Bishop(Colors.WHITE);
+        board[5][7] = new Bishop(Colors.WHITE);
+        board[3][7] = new King(Colors.WHITE);
+        board[4][7] = new Queen(Colors.WHITE);
     }
 
     public Object getBg() {
@@ -58,21 +76,32 @@ public class Board {
     }
 
     public Figure getBox(Coord coord) {
-        return table[coord.x][coord.y];
+        return board[coord.x][coord.y];
     }
 
     public void setBox(Figure fig, Coord coord) {
-        table[coord.x][coord.y] = fig;
+        board[coord.x][coord.y] = fig;
     }
+
+    public boolean isBackLighted(Coord coord) {return isBackLighted[coord.x][coord.y];}
 
     public void leftClick(Coord coord) {
-        if (isBackLighted(coord))
-            isBackLighted[coord.x][coord.y] = false;
-        else
-            isBackLighted[coord.x][coord.y] = true;
+        if (crdTmp == null && getBox(coord).getClass() != Empty.class) {
+            crdTmp = coord;
+            board[coord.x][coord.y].backlight(coord, board, isBackLighted);
+            return;
+        }
+        else if (crdTmp != null && crdTmp != coord && isBackLighted(coord)) {
+            board[crdTmp.x][crdTmp.y].move(crdTmp, coord, board);
+            clearBackLight();
+        }
+        crdTmp = null;
+        clearBackLight();
     }
 
-    public boolean isBackLighted(Coord coord) {
-        return isBackLighted[coord.x][coord.y];
+    private void clearBackLight() {
+        for (Coord crd : getAllCoords()) {
+            isBackLighted[crd.x][crd.y] = false;
+        }
     }
 }
