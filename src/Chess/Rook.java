@@ -8,38 +8,17 @@ public class Rook extends Figure{
 
     @Override
     public void backlight(Coord coord, Figure[][] board, boolean[][] isBackLighted) {
-        isBackLighted[coord.x][coord.y] = true;
-        for (int i = coord.x - 1; i >= 0; i--) {
-            if (board[i][coord.y].getClass() != Empty.class) {
-                if (board[i][coord.y].color != board[coord.x][coord.y].color)
-                    isBackLighted[i][coord.y] = true;
-                break;
-            }
-            isBackLighted[i][coord.y] = true;
+        for (Coord crd : WayBuilder.findWay(coord, 1, 0, board)) {
+            isBackLighted[crd.x][crd.y] = true;
         }
-        for (int i = coord.x + 1; i < 8; i++) {
-            if (board[i][coord.y].getClass() != Empty.class) {
-                if (board[i][coord.y].color != board[coord.x][coord.y].color)
-                    isBackLighted[i][coord.y] = true;
-                break;
-            }
-            isBackLighted[i][coord.y] = true;
+        for (Coord crd : WayBuilder.findWay(coord, -1, 0, board)) {
+            isBackLighted[crd.x][crd.y] = true;
         }
-        for (int i = coord.y - 1; i >= 0; i--) {
-            if (board[coord.x][i].getClass() != Empty.class) {
-                if (board[coord.x][i].color != board[coord.x][coord.y].color)
-                    isBackLighted[coord.x][i] = true;
-                break;
-            }
-            isBackLighted[coord.x][i] = true;
+        for (Coord crd : WayBuilder.findWay(coord, 0, 1, board)) {
+            isBackLighted[crd.x][crd.y] = true;
         }
-        for (int i = coord.y + 1; i < 8; i++) {
-            if (board[coord.x][i].getClass() != Empty.class) {
-                if (board[coord.x][i].color != board[coord.x][coord.y].color)
-                    isBackLighted[coord.x][i] = true;
-                break;
-            }
-            isBackLighted[coord.x][i] = true;
+        for (Coord crd : WayBuilder.findWay(coord, 0, -1, board)) {
+            isBackLighted[crd.x][crd.y] = true;
         }
     }
 

@@ -23,13 +23,11 @@ public class Board {
 
     private void initTable() {
         for (int i = 0; i < BOARD_SIZE; i++) {
-            board[i][1] = new Empty(Colors.NA);
-//            board[i][1] = new Pawn(Colors.BLACK);
+            board[i][1] = new Pawn(Colors.BLACK);
             for (int j = 2; j < 6; j++) {
                 board[i][j] = new Empty(Colors.NA);
             }
-//            board[i][6] = new Pawn(Colors.WHITE);
-            board[i][6] = new Empty(Colors.NA);
+            board[i][6] = new Pawn(Colors.WHITE);
         }
         board[0][0] = new Rook(Colors.BLACK);
         board[7][0] = new Rook(Colors.BLACK);
@@ -37,16 +35,16 @@ public class Board {
         board[6][0] = new Horse(Colors.BLACK);
         board[2][0] = new Bishop(Colors.BLACK);
         board[5][0] = new Bishop(Colors.BLACK);
-        board[3][0] = new King(Colors.BLACK);
-        board[4][0] = new Queen(Colors.BLACK);
+        board[3][0] = new Queen(Colors.BLACK);
+        board[4][0] = new King(Colors.BLACK);
         board[0][7] = new Rook(Colors.WHITE);
         board[7][7] = new Rook(Colors.WHITE);
         board[1][7] = new Horse(Colors.WHITE);
         board[6][7] = new Horse(Colors.WHITE);
         board[2][7] = new Bishop(Colors.WHITE);
         board[5][7] = new Bishop(Colors.WHITE);
-        board[3][7] = new King(Colors.WHITE);
-        board[4][7] = new Queen(Colors.WHITE);
+        board[3][7] = new Queen(Colors.WHITE);
+        board[4][7] = new King(Colors.WHITE);
     }
 
     public Object getBg() {
