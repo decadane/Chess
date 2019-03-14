@@ -56,6 +56,7 @@ public class ChessGame extends JFrame {
                 super.mouseClicked(e);
                 Coord coord = new Coord((e.getX() - BORDER_SIZE) / ICON_SIZE,
                         (e.getY() - BORDER_SIZE) / ICON_SIZE);
+//                System.out.println(coord.x + " " + coord.y);
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     board.leftClick(coord);
                 }

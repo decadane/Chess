@@ -23,11 +23,13 @@ public class Board {
 
     private void initTable() {
         for (int i = 0; i < BOARD_SIZE; i++) {
-            board[i][1] = new Pawn(Colors.BLACK);
+            board[i][1] = new Empty(Colors.NA);
+//            board[i][1] = new Pawn(Colors.BLACK);
             for (int j = 2; j < 6; j++) {
                 board[i][j] = new Empty(Colors.NA);
             }
-            board[i][6] = new Pawn(Colors.WHITE);
+//            board[i][6] = new Pawn(Colors.WHITE);
+            board[i][6] = new Empty(Colors.NA);
         }
         board[0][0] = new Rook(Colors.BLACK);
         board[7][0] = new Rook(Colors.BLACK);
@@ -77,10 +79,6 @@ public class Board {
 
     public Figure getBox(Coord coord) {
         return board[coord.x][coord.y];
-    }
-
-    public void setBox(Figure fig, Coord coord) {
-        board[coord.x][coord.y] = fig;
     }
 
     public boolean isBackLighted(Coord coord) {return isBackLighted[coord.x][coord.y];}
