@@ -81,15 +81,23 @@ public class Board {
 
     public boolean isBackLighted(Coord coord) {return isBackLighted[coord.x][coord.y];}
 
-    public void leftClick(Coord coord) {
-        if (crdTmp == null && getBox(coord).getClass() != Empty.class) {
+    public void leftClick(Coord coord, GameMode mode) {
+        if (crdTmp == null && getBox(coord).getClass() != Empty.class &&
+                mode.getState().toString().equalsIgnoreCase(board[coord.x][coord.y].color.toString())) {
             crdTmp = coord;
             board[coord.x][coord.y].backlight(coord, board, isBackLighted);
             return;
-        }
-        else if (crdTmp != null && crdTmp != coord && isBackLighted(coord)) {
+        } else if (crdTmp != null && !crdTmp.equals(coord) && isBackLighted(coord)) {
+            if (board[coord.x][coord.y].getClass() == King.class) {
+                if (board[coord.x][coord.y].color == Colors.BLACK) {
+                    mode.setState(GameState.WHITE_WIN);
+                }
+                else {
+                    mode.setState(GameState.BLACK_WIN);
+                }
+            }
             board[crdTmp.x][crdTmp.y].move(crdTmp, coord, board);
-            clearBackLight();
+            mode.toggleState();
         }
         crdTmp = null;
         clearBackLight();

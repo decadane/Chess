@@ -8,7 +8,6 @@ public abstract class Figure {
     protected ImageIcon icon;
 
     public abstract void backlight(Coord coord, Figure[][] board, boolean isBackLighted[][]);
-    public abstract void move(Coord from, Coord to, Figure[][] board);
 
     Figure(Colors color) {
 
@@ -22,5 +21,16 @@ public abstract class Figure {
 
     public ImageIcon getIcon() {
         return icon;
+    }
+
+    public void move(Coord from, Coord to, Figure[][] board) {
+        Figure tmp = board[from.x][from.y];
+        if (board[to.x][to.y].color != tmp.color && board[to.x][to.y].getClass() != Empty.class) {
+            board[from.x][from.y] = new Empty(Colors.NA);
+        }
+        else {
+            board[from.x][from.y] = board[to.x][to.y];
+        }
+        board[to.x][to.y] = tmp;
     }
 }

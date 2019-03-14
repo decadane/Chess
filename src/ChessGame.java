@@ -1,5 +1,7 @@
 import Chess.Board;
 import Chess.Coord;
+import Chess.GameMode;
+import Chess.GameState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +15,8 @@ public class ChessGame extends JFrame {
 
     private Board board;
     private JPanel panel;
+    private JLabel label;
+    private GameMode game;
 
     public static void main(String[] args) {
         new ChessGame();
@@ -20,9 +24,15 @@ public class ChessGame extends JFrame {
 
     ChessGame() {
         board = new Board();
+        game = new GameMode();
         initPanel();
         initFrame();
-        game();
+        initLabel();
+    }
+
+    private void initLabel() {
+        label = new JLabel("Welcome! Press any white figure to start the game!");
+        add(label, BorderLayout.SOUTH);
     }
 
     private void initFrame() {
@@ -56,9 +66,15 @@ public class ChessGame extends JFrame {
                 super.mouseClicked(e);
                 Coord coord = new Coord((e.getX() - BORDER_SIZE) / ICON_SIZE,
                         (e.getY() - BORDER_SIZE) / ICON_SIZE);
-//                System.out.println(coord.x + " " + coord.y);
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    board.leftClick(coord);
+                if (!coord.validCoord(0, 0)) {
+                    return;
+                }
+                if (e.getButton() == MouseEvent.BUTTON1 &&
+                        (game.getState() == GameState.BLACK || game.getState() == GameState.WHITE)) {
+                    board.leftClick(coord, game);
+                    label.setText(getMessage());
+                    game.checkWinner();
+                    panel.repaint();
                 }
             }
         });
@@ -66,9 +82,16 @@ public class ChessGame extends JFrame {
         add(panel);
     }
 
-    private void game() {
-        while(true) {
-            repaint();
-        }
+    private String getMessage() {
+        if (game.getState() == GameState.WHITE)
+            return "White's turn!";
+        else if (game.getState() == GameState.BLACK)
+            return "Black's turn!";
+        else if (game.getState() == GameState.BLACK_WIN)
+            return "Black win!";
+        else if (game.getState() == GameState.WHITE_WIN)
+            return "White win!";
+        else
+            return "Oops, something go wrong!";
     }
 }
